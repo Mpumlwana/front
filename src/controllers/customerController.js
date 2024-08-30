@@ -1,51 +1,42 @@
-const Customer = require('../models/Customer');
+import CustomerService from '../services/customerService';
 
-const registerCustomer = async (req, res) => {
-  try {
-    const { name, surname, email, password } = req.body;
-    const newCustomer = new Customer({ name, surname, email, password });
-    await newCustomer.save();
-    res.status(201).json({ message: 'Customer registered successfully' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to register customer' });
-  }
-};
+export default {
+  data() {
+    return {
+      customers: []  // Holds the customer list
+    };
+  },
+  methods: {
+    fetchCustomers() {
+      CustomerService.getAllCustomers()
+        .then(response => {
+          this.customers = response.data;
+        })
+        .catch(error => {
+          console.error("There was an error fetching the customers!", error);
+        });
+    },
 
-module.exports = { registerCustomer };
-
-const loginCustomer = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const customer = await Customer.findOne({ email, password });
-    if (customer) {
-      res.status(200).json({ message: 'Login successful' });
-    } else {
-      res.status(401).json({ error: 'Invalid credentials' });
+    handleDeleteCustomer(userId) {
+      deleteCustomer(userId)
+        .then(() => {
+          // Reload customer data after deletion
+          this.fetchCustomers();
+        })
+        .catch(error => {
+          console.error("Error deleting customer:", error);
+        });
+    },
+    
+    handleUpdateCustomer(userId, updatedCustomer) {
+      updateCustomer(userId, updatedCustomer)
+        .then(() => {
+          // Optionally, reload customer data or handle post-update logic
+          this.fetchCustomers();
+        })
+        .catch(error => {
+          console.error("Error updating customer:", error);
+        });
     }
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to login' });
   }
-};
-
-module.exports = { loginCustomer };
-
-
-const getUserDetails = async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    if (!userId) {
-      return res.status(401).json({ error: 'Not logged in' });
-    }
-    const customer = await Customer.findById(userId);
-    if (customer) {
-      res.status(200).json({ name: customer.name, surname: customer.surname });
-    } else {
-      res.status(404).json({ error: 'User not found' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch user details' });
-  }
-};
-
-module.exports = { loginCustomer, getUserDetails };
-
+  };

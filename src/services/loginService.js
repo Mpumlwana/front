@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-export const loginCustomer = async (loginData) => {
+const API_URL = '/admin/';
+
+
+export const loginAdmin = async (loginData) => {
   try {
-    const response = await axios.post('/api/login', loginData);
-    return response.data;
+    return await axios.post(`${API_URL}login`, loginData); 
   } catch (error) {
-    throw new Error('Failed to login');
+    console.error('Login failed:', error); // Optional: Log or handle the error
+    throw error; // Re-throw the error to be handled in the calling function
   }
 };

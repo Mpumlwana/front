@@ -7,17 +7,6 @@
         </ul>
         <a href="#" class="brand-logo">Hardware Store</a>
         <ul id="nav-mobile" class="right">
-          <li v-if="!isLoggedIn"><router-link to="/login">Login</router-link></li>
-          <li v-if="!isLoggedIn"><router-link to="/register">Register</router-link></li>
-          <li v-if="isLoggedIn">{{ user.name }} {{ user.surname }}</li>
-          <li v-if="isLoggedIn"><a @click="logout">Logout</a></li>
-          <li class="cart-icon-wrapper">
-            <router-link to="/cart">
-              <i class="material-icons">shopping_cart</i>
-              <span class="cart-count">{{ cartCount }}</span>
-              <span class="cart-value">${{ cartValue.toFixed(2) }}</span>
-            </router-link>
-          </li>
         </ul>
       </div>
     </nav>

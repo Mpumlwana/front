@@ -1,15 +1,13 @@
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  transpileDependencies: true,
+module.exports = {
   devServer: {
-    port: 5119,  //run cmd command propt for open ports {netstat -aon}
+    port: 5119, 
     proxy: {
-      '/ecommerce' : {
-        target : 'http://localhost:8082',
-        ws : true,
-        changeOrigin : true
+      '/ecommerce': {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+        timeout: 5000,  // increase timeout
+        proxyTimeout: 5000,
       }
     }
   }
-})
-
+}
