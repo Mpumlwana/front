@@ -8,14 +8,16 @@
           <th @click="sortBy('id')">ID</th>
           <th @click="sortBy('name')">Name</th>
           <th @click="sortBy('category')">Category</th>
+          <th @click="sortBy('price')">Price</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in sortedProducts" :key="product.id">
-          <td>{{ product.id }}</td>
+        <tr v-for="product in products" :key="product.id">
+          <td>{{ product.productId }}</td>
           <td>{{ product.name }}</td>
-          <td>{{ product.category }}</td>
+          <td>{{ product.category.name }}</td>
+          <td>{{product.price}}</td>
           <td>
             <button @click="updateProduct">Update</button>
             <button @click="deleteProduct(product.id)">Delete</button>
@@ -27,25 +29,22 @@
 </template>
 
 <script>
+
+import { getProducts } from '@/services/productService';
 export default {
   data() {
     return {
       products: [
-        { id: 1, name: 'Hammer', category: 'Tools' },
-        { id: 2, name: 'Nails', category: 'Hardware' }
       ],
       sortKey: '',
       sortAsc: true
     };
   },
-  computed: {
-    sortedProducts() {
-      return [...this.products].sort((a, b) => {
-        let result = 0;
-        if (a[this.sortKey] < b[this.sortKey]) result = -1;
-        if (a[this.sortKey] > b[this.sortKey]) result = 1;
-        return this.sortAsc ? result : -result;
-      });
+  async created() {
+    try {
+      this.products = await getProducts();  // Fetch products on component creation
+    } catch (error) {
+      console.error('Error fetching products:', error);  // Handle any errors
     }
   },
   methods: {
@@ -61,6 +60,7 @@ export default {
       alert('Update product functionality will be implemented later.');
     },
     deleteProduct(id) {
+
       this.products = this.products.filter(product => product.id !== id);
     }
   }
