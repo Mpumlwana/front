@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '@/views/HomePage.vue';
+//import HomePage from '@/views/HomePage.vue';
 import AboutPage from '@/views/AboutPage.vue';
 import CategoryPage from '@/views/CategoryPage.vue';
 import CartPage from '@/views/CartPage.vue';
@@ -12,13 +12,13 @@ import CategoryProductManagement from "@/views/adminviews/ProductManagement.vue"
 import ProductManagement from "@/views/adminviews/ProductManagement.vue";
 import OrderManagement  from "@/views/adminviews/OrderManagement.vue";
 const routes = [
-  { path: '/', component: HomePage },
+  { path: '/', component: LoginPage },
   { path: '/about', name: 'About', component: AboutPage },
   { path: '/category',name: 'Category', component: CategoryPage },
   { path: '/cart',name: 'Cart', component: CartPage },
   { path: '/order',name: 'Order', component: OrderPage },
   { path: '/register',name: 'Register', component: Registration },
-  { path: '/login',name: 'Login', component: LoginPage },
+  //{ path: '/login',name: 'Login', component: LoginPage },
   {path: '/admin', name: 'Admin', component: AdminDashboard},
   {path: '/admin/customers', name: 'CustomerManagement', component: CustomerManagement},
   {path: '/admin/category-product', name: 'CategoryProductManagement', component: CategoryProductManagement},

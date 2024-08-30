@@ -7,7 +7,8 @@
         <input type="text" placeholder="Search..." class="search-bar" />
       </div>
       <CustomerManagement />
-      <CategoryProductManagement />
+      <CategoryManagement />
+      <ProductManagement />
       <OrderManagement />
     </div>
   </div>
@@ -16,14 +17,16 @@
 <script>
 import AdminSidebar from './AdminSidebar.vue';
 import CustomerManagement from './CustomerManagement.vue';
-import CategoryProductManagement from './ProductManagement.vue';
+import CategoryManagement from './CategoryManagement.vue';
+import ProductManagement from './ProductManagement.vue';
 import OrderManagement from './OrderManagement.vue';
 
 export default {
   components: {
     AdminSidebar,
     CustomerManagement,
-    CategoryProductManagement,
+    CategoryManagement,
+    ProductManagement,
     OrderManagement
   }
 }

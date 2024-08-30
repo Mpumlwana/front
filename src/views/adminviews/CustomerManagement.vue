@@ -13,13 +13,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="customer in sortedCustomers" :key="customer.id">
-          <td>{{ customer.id }}</td>
+        <tr v-for="customer in customers" :key="customer.id">
+          <td>{{ customer.userId }}</td>
           <td>{{ customer.firstName }}</td>
           <td>{{ customer.lastName }}</td>
-          <td>{{ customer.email }}</td>
-          <td>{{ customer.phone }}</td>
-          <td><button @click="deleteCustomer(customer.id)">Delete</button></td>
+          <td>{{ customer.contact.email }}</td>
+          <td>{{ customer.contact.phoneNumber }}</td>
+          <button @click="handleUpdateCustomer(customer.id, updatedCustomerData)">Update</button>
+          <button @click="handleDeleteCustomer(customer.id)">Delete</button>
         </tr>
       </tbody>
     </table>
@@ -27,36 +28,24 @@
 </template>
 
 <script>
+import { getCustomers } from '@/services/customerService';
+
 export default {
   data() {
     return {
-      customers: [
-        { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '1234567890' },
-        { id: 2, firstName: 'Jane', lastName: 'Doe', email: 'jane@example.com', phone: '0987654321' }
-      ],
+      customers: [],
       sortKey: '',
       sortAsc: true
     };
   },
-  computed: {
-    sortedCustomers() {
-      return [...this.customers].sort((a, b) => {
-        let result = 0;
-        if (a[this.sortKey] < b[this.sortKey]) result = -1;
-        if (a[this.sortKey] > b[this.sortKey]) result = 1;
-        return this.sortAsc ? result : -result;
-      });
-    }
-  },
-  methods: {
-    sortBy(key) {
-      this.sortKey = key;
-      this.sortAsc = !this.sortAsc;
-    },
-    deleteCustomer(id) {
-      this.customers = this.customers.filter(customer => customer.id !== id);
+  async created() {
+    try {
+      this.customers = await getCustomers();  // Fetch customers on component creation
+    } catch (error) {
+      console.error('Error fetching customers:', error);  // Handle any errors
     }
   }
+  
 };
 </script>
 
