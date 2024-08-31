@@ -134,7 +134,7 @@ th, td {
 
 button {
   padding: 5px 10px;
-  background-color: #2980b9;
+  background-color: #3498db;
   color: #fff;
   border: none;
   border-radius: 4px;
