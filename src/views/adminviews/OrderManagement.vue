@@ -65,7 +65,7 @@ th, td {
 
 button {
   padding: 5px 10px;
-  background-color: #e74c3c;
+  background-color: #2980b9;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -73,6 +73,6 @@ button {
 }
 
 button:hover {
-  background-color: #c0392b;
+  background-color: #2980b9;
 }
 </style>

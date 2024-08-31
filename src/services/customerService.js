@@ -11,6 +11,15 @@ export function getCustomers() {
     });
 }
 
+export async function createCustomer(newCustomer) {
+  await axios.post(`${API_URL}register`, newCustomer)
+  .then(response => response.data)
+    .catch(error => {
+      console.error('Error creating customer:', error);
+      throw error;
+    });
+}
+
 // Function to delete a customer by ID
 export function deleteCustomer(userId) {
   return axios.delete(`${API_URL}delete/${userId}`)

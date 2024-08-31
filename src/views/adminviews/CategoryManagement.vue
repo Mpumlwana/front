@@ -38,13 +38,12 @@ export default {
     };
   },
   async created() {
-  try {
-    this.categories = await getCategories();  // Fetch categories on component creation
-    console.log('Categories fetched:', this.categories);  // Log the fetched categories
-  } catch (error) {
-    console.error('Error fetching categories:', error);  // Handle any errors
+    try {
+      this.categories = await getCategories();  // Fetch categories on component creation
+    } catch (error) {
+      console.error('Error fetching customers:', error);  // Handle any errors
+    }
   }
-}
 
 };
 </script>
