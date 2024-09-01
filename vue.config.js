@@ -5,7 +5,7 @@ module.exports = {
       '/ecommerce': {
         target: 'http://localhost:8082',
         changeOrigin: true,
-        timeout: 5000,  // increase timeout
+        timeout: 5000, 
         proxyTimeout: 5000,
       }
     }

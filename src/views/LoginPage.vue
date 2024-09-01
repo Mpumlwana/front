@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <header class="header">
-      <h1 class="center-align">Admin Login</h1>
+      <h1 class="center-align">Login</h1>
     </header>
     <form @submit.prevent="login">
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" type="email" v-model="email" required>
-          <label for="email">Email</label>
+          <input id="username" type="email" v-model="username" required>
+          <label for="username">Email</label>
         </div>
       </div>
       <div class="row">
@@ -24,40 +24,38 @@
 </template>
 
 <script>
-import { loginAdmin } from '@/services/loginService'; // Make sure the loginAdmin service is defined correctly
+import { loginAdmin } from '@/services/loginService'; 
 
 export default {
   name: 'LoginPage',
   data() {
     return {
-      email: '',
+      username: '',
       password: '',
       message: ''
     };
   },
   methods: {
     async login() {
-      try {
-        const loginData = {
-          username: this.username,  
-          password: this.password
-        };
-        // Call the admin login service
-        const response = await loginAdmin(loginData);
+  try {
+    const loginData = {
+      username: this.username,
+      password: this.password
+    };
+    const response = await loginAdmin(loginData);
 
-        if (response.status === 200) {
-          // Login success, navigate to admin dashboard
-          this.$router.push({ name: 'AdminDashboard' });
-        } else if (response.status === 412) {
-          // Precondition failed (Invalid credentials)
-          this.message = 'Invalid email or password.';
-        } else {
-          this.message = 'An error occurred during login.';
-        }
-      } catch (error) {
-        this.message = 'Failed to login. Please check your connection.';
-      }
-    },
+    if (response.status === 200) {
+      this.$router.push({ name: 'AdminDashboard' });
+    } else if (response.status === 412) {
+      this.message = 'Invalid email or password.';
+    } else {
+      this.message = `An error occurred: ${response.status}`;
+    }
+  } catch (error) {
+    // Detailed error message
+    this.message = `Failed to login: ${error.response ? error.response.data.message : 'Connection error'}`;
+  }
+},
     cancel() {
       window.history.back();
     }

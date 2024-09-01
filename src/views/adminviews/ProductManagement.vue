@@ -17,7 +17,7 @@
           <td>{{ product.productId }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.category.name }}</td>
-          <td>{{product.price}}</td>
+          <td>{{'R' + product.price}}</td>
           <td>
             <button @click="updateProduct">Update</button>
             <button @click="deleteProduct(product.id)">Delete</button>

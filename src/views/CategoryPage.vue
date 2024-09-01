@@ -24,7 +24,7 @@ export default {
     try {
       this.categories = await getCategories();  // Fetch categories on component creation
     } catch (error) {
-      console.error('Error fetching categories:', error);  // Handle any errors
+      console.error('Error fetching categories:', error); 
     }
   }
 };
