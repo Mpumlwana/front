@@ -38,13 +38,17 @@ export default {
     };
   },
   async created() {
-    try {
-      this.categories = await getCategories();  // Fetch categories on component creation
-    } catch (error) {
-      console.error('Error fetching customers:', error);  // Handle any errors
-    }
+    await this.fetchCategories();  // Fetch categories on component creation
   },
-  async removeCategory(categoryId) {
+  methods: {
+    async fetchCategories() {
+      try {
+        this.categories = await getCategories();
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    },
+    async removeCategory(categoryId) {
       if (confirm('Are you sure you want to delete this category?')) {
         try {
           await deleteCategory(categoryId);
@@ -53,8 +57,8 @@ export default {
           console.error('Error deleting category:', error);
         }
       }
-    },
-
+    }
+  }
 };
 </script>
 
