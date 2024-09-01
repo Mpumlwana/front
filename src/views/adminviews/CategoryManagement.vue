@@ -18,7 +18,7 @@
           <td>{{ category.description }}</td>
           <td>
             <button @click="updateCategory(category.categoryId)">Update</button>
-            <button @click="deleteCategory(category.categoryId)">Delete</button>
+            <button @click="removeCategory(category.categoryId)">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { getCategories } from '@/services/categoryService';
+import { getCategories, deleteCategory } from '@/services/categoryService';
 
 export default {
   data() {
@@ -43,7 +43,17 @@ export default {
     } catch (error) {
       console.error('Error fetching customers:', error);  // Handle any errors
     }
-  }
+  },
+  async removeCategory(categoryId) {
+      if (confirm('Are you sure you want to delete this category?')) {
+        try {
+          await deleteCategory(categoryId);
+          this.fetchCategories(); // Refresh the category list after deletion
+        } catch (error) {
+          console.error('Error deleting category:', error);
+        }
+      }
+    },
 
 };
 </script>

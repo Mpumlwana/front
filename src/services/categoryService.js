@@ -13,3 +13,12 @@ export function getCategories() {
       throw error;
     });
 }
+
+export function deleteCategory(categoryId) {
+  return axios.delete(`${API_URL}delete/${categoryId}`)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error deleting category:', error);
+      throw error;
+    });
+}

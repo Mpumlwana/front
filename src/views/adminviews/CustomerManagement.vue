@@ -26,8 +26,17 @@
       </tbody>
     </table>
   <!-- Modals -->
-  <AddCustomerModal :isVisible="isAddModalVisible" @close="closeAddModal" @add-customer="addCustomer"/>
-  <UpdateCustomerModal :isVisible="isUpdateModalVisible" :customer="selectedCustomer" @close="closeUpdateModal" @update-customer="updateCustomer"/>
+  <AddCustomerModal
+    :isVisible="isAddModalVisible"
+    @close="closeAddModal"
+    @add-customer="addCustomer"
+  />
+  <UpdateCustomerModal
+    :isVisible="isUpdateModalVisible"
+    :customer="selectedCustomer"
+    @close="closeUpdateModal"
+    @update-customer="updateCustomer"
+  />
   </div>
 </template>
 
@@ -65,9 +74,11 @@ export default {
     openAddModal() {
     console.log('Opening Add Modal');
     this.isAddModalVisible = true;
+    console.log('Modal Opened');
     },
     closeAddModal() {
       this.isAddModalVisible = false;
+      console.log('Modal Closed');
     },
     openUpdateModal(customer) {
     console.log('Opening Update Modal for customer:', customer);
@@ -85,6 +96,7 @@ export default {
         console.error('Error adding customer:', error);
       }
     },
+    
     async updateCustomer(customerId, updatedCustomer) {
     if (!customerId || customerId === 'undefined') {
       console.error('Invalid Customer ID');
