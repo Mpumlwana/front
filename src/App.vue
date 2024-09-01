@@ -10,7 +10,9 @@
         </ul>
       </div>
     </nav>
-    <router-view/>
+    <div class="content">
+      <router-view/>
+    </div>
     <PageFooter />
   </div>
 </template>
@@ -72,41 +74,53 @@ export default {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 70vh;
+  min-height: 100vh; /* Ensure full viewport height */
 }
+
+.content {
+  flex: 1; /* This will make the content area expand as necessary */
+}
+
 .nav-wrapper {
   padding: 0 20px;
   background-color: #333;
 }
+
 .nav-wrapper .left,
 .nav-wrapper .right {
   display: flex;
   align-items: center;
 }
+
 ul#nav-mobile.left {
   margin: 0;
   padding: 0;
   flex: 1;
 }
+
 .brand-logo {
   color: white;
   flex: 2;
   text-align: center;
 }
+
 ul#nav-mobile li {
   display: flex;
   align-items: center;
   margin: 0 10px;
 }
+
 .material-icons {
   vertical-align: middle;
   color: white;
 }
+
 .cart-icon-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
+
 .cart-count {
   position: absolute;
   top: 4px;
@@ -122,6 +136,7 @@ ul#nav-mobile li {
   align-items: center;
   justify-content: center;
 }
+
 .cart-value {
   margin-top: 13px;
   margin-left: 14px;
@@ -129,13 +144,16 @@ ul#nav-mobile li {
   vertical-align: middle;
   color: white;
 }
+
 .empty-cart {
   color: grey;
   margin-left: 10px;
 }
+
 ul#nav-mobile.right li {
   margin: 0;
 }
+
 ul#nav-mobile.right li a {
   color: white;
   padding: 0 10px;
