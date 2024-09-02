@@ -13,6 +13,11 @@
       </select>
     </div>
 
+    <!-- Amount of Categories -->
+    <div class="category-count">
+      Amount of Categories: {{ categories.length }}
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -112,7 +117,7 @@ export default {
       if (confirm('Are you sure you want to delete this category?')) {
         try {
           await deleteCategory(categoryId);
-          this.fetchCategories();
+          await this.fetchCategories();
         } catch (error) {
           console.error('Error deleting category:', error);
         }
@@ -128,7 +133,7 @@ export default {
     async submitAdd() {
       try {
         await createCategory(this.newCategory);
-        this.fetchCategories();
+        await this.fetchCategories();
         this.closeAddModal();
       } catch (error) {
         console.error('Error adding category:', error);
@@ -145,7 +150,7 @@ export default {
     async submitUpdate() {
       try {
         await updateCategory(this.selectedCategory);
-        this.fetchCategories();
+        await this.fetchCategories();
         this.closeUpdateModal();
       } catch (error) {
         console.error('Error updating category:', error);
@@ -186,6 +191,11 @@ export default {
 .filter-search-section select {
   margin-right: 10px;
   padding: 5px;
+}
+
+.category-count {
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 table {

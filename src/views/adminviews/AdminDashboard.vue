@@ -7,9 +7,9 @@
         <input type="text" placeholder="Search..." class="search-bar" />
       </div>
       <CustomerManagement />
-      <CategoryManagement />
       <ProductManagement />
       <OrderManagement />
+      <RecentCategories />
     </div>
   </div>
 </template>
@@ -17,17 +17,17 @@
 <script>
 import AdminSidebar from './AdminSidebar.vue';
 import CustomerManagement from './CustomerManagement.vue';
-import CategoryManagement from './CategoryManagement.vue';
 import ProductManagement from './ProductManagement.vue';
 import OrderManagement from './OrderManagement.vue';
+import RecentCategories from '@/components/RecentCategories.vue';
 
 export default {
   components: {
     AdminSidebar,
     CustomerManagement,
-    CategoryManagement,
     ProductManagement,
-    OrderManagement
+    OrderManagement,
+    RecentCategories
   }
 }
 </script>
@@ -36,7 +36,6 @@ export default {
 #dashboard {
   display: flex;
 }
-
 .content {
   flex-grow: 1;
   padding: 20px;
@@ -51,8 +50,8 @@ export default {
 }
 
 .search-bar {
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 5px;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>
