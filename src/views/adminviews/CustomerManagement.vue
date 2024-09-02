@@ -96,7 +96,7 @@ export default {
         console.error('Error adding customer:', error);
       }
     },
-    
+
     async updateCustomer(customerId, updatedCustomer) {
     if (!customerId || customerId === 'undefined') {
       console.error('Invalid Customer ID');
@@ -119,7 +119,7 @@ export default {
         }
       }
     },
-    
+
   }
 };
 </script>

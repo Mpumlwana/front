@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="modal">
     <div class="modal-content">
       <h3>Add Customer</h3>
-      
+
       <!-- Form for Adding Customer -->
       <form @submit.prevent="submitAdd">
         <div>
