@@ -1,7 +1,7 @@
 <template>
   <div class="management-section">
     <h3>Manage Categories</h3>
-    <button @click="addCategory">Add Category</button>
+    <button @click="openAddModal">Add Category</button>
     <table>
       <thead>
         <tr>
@@ -23,6 +23,25 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Add Category Modal -->
+    <div v-if="showAddModal" class="modal">
+      <div class="modal-content">
+        <h4>Add Category</h4>
+        <form @submit.prevent="submitAdd">
+          <div class="input-field">
+            <input v-model="newCategory.name" type="text" required />
+            <label class="active">Name</label>
+          </div>
+          <div class="input-field">
+            <input v-model="newCategory.description" type="text" required />
+            <label class="active">Description</label>
+          </div>
+          <button type="submit" class="btn">Add</button>
+          <button type="button" class="btn red" @click="closeAddModal">Cancel</button>
+        </form>
+      </div>
+    </div>
 
     <!-- Update Category Modal -->
     <div v-if="showUpdateModal" class="modal">
@@ -46,7 +65,7 @@
 </template>
 
 <script>
-import { getCategories, deleteCategory, updateCategory } from '@/services/categoryService';
+import { getCategories, deleteCategory, updateCategory, createCategory } from '@/services/categoryService';
 
 export default {
   data() {
@@ -54,8 +73,13 @@ export default {
       categories: [],
       sortKey: '',
       sortAsc: true,
+      showAddModal: false,
       showUpdateModal: false,
-      selectedCategory: null
+      selectedCategory: null,
+      newCategory: {
+        name: '',
+        description: ''
+      }
     };
   },
   async created() {
@@ -77,6 +101,22 @@ export default {
         } catch (error) {
           console.error('Error deleting category:', error);
         }
+      }
+    },
+    openAddModal() {
+      this.showAddModal = true;
+    },
+    closeAddModal() {
+      this.showAddModal = false;
+      this.newCategory = { name: '', description: '' };
+    },
+    async submitAdd() {
+      try {
+        await createCategory(this.newCategory);
+        this.fetchCategories();
+        this.closeAddModal();
+      } catch (error) {
+        console.error('Error adding category:', error);
       }
     },
     openUpdateModal(category) {

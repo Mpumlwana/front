@@ -28,3 +28,12 @@ export function updateCategory(category) {
       throw error;
     });
 }
+
+export function createCategory(category) {
+  return axios.post(`${API_URL}create`, category)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error creating category:', error);
+      throw error;
+    });
+}
