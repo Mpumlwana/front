@@ -3,15 +3,18 @@
     <nav>
       <div class="nav-wrapper">
         <ul id="nav-mobile" class="left">
-          <li><router-link to="/"><i class="material-icons">home</i></router-link></li>
+          <li>
+            <router-link :to="homeRoute">
+              <i class="material-icons">home</i>
+            </router-link>
+          </li>
         </ul>
         <a href="#" class="brand-logo">Hardware Store</a>
-        <ul id="nav-mobile" class="right">
-        </ul>
+        <ul id="nav-mobile" class="right"></ul>
       </div>
     </nav>
     <div class="content">
-      <router-view/>
+      <router-view />
     </div>
     <PageFooter />
   </div>
@@ -33,7 +36,8 @@ export default {
       isLoggedIn: false,
       user: {
         name: '',
-        surname: ''
+        surname: '',
+        role: '' // Add role to user data
       }
     };
   },
@@ -61,10 +65,18 @@ export default {
       try {
         await logoutUser();
         this.isLoggedIn = false;
-        this.user = { name: '', surname: '' };
+        this.user = { name: '', surname: '', role: '' };
       } catch (error) {
         console.error('Failed to logout:', error);
       }
+    }
+  },
+  computed: {
+    homeRoute() {
+      if (this.isLoggedIn) {
+        return this.user.role === 'admin' ? '/admin' : '/home';
+      }
+      return '/';
     }
   }
 };

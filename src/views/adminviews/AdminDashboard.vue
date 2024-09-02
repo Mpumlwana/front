@@ -1,3 +1,4 @@
+<!-- src/views/adminviews/AdminDashboard.vue -->
 <template>
   <div id="dashboard">
     <AdminSidebar />
@@ -6,28 +7,30 @@
         <h1>Admin Dashboard</h1>
         <input type="text" placeholder="Search..." class="search-bar" />
       </div>
-      <CustomerManagement />
+      <RecentCustomer />
       <ProductManagement />
-      <OrderManagement />
       <RecentCategories />
+      <OrderManagement />
+
+
     </div>
   </div>
 </template>
 
 <script>
 import AdminSidebar from './AdminSidebar.vue';
-import CustomerManagement from './CustomerManagement.vue';
 import ProductManagement from './ProductManagement.vue';
 import OrderManagement from './OrderManagement.vue';
+import RecentCustomer from '@/components/RecentCustomer.vue';
 import RecentCategories from '@/components/RecentCategories.vue';
 
 export default {
   components: {
     AdminSidebar,
-    CustomerManagement,
     ProductManagement,
     OrderManagement,
-    RecentCategories
+    RecentCategories,
+    RecentCustomer
   }
 }
 </script>
@@ -35,6 +38,7 @@ export default {
 <style scoped>
 #dashboard {
   display: flex;
+  padding: 20px;
 }
 .content {
   flex-grow: 1;

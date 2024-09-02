@@ -12,7 +12,8 @@ import CategoryManagement from "@/views/adminviews/CategoryManagement.vue";
 import ProductManagement from "@/views/adminviews/ProductManagement.vue";
 import OrderManagement  from "@/views/adminviews/OrderManagement.vue";
 const routes = [
-  { path: '/', component: LoginPage },
+  {path: '/', component: AdminDashboard},
+  { path: '/home/login', component: LoginPage },
   { path: '/about', name: 'About', component: AboutPage },
   { path: '/category',name: 'Category', component: CategoryPage },
   { path: '/cart',name: 'Cart', component: CartPage },

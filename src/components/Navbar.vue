@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <router-link to="/">Home</router-link>
+      <router-link to="/home">Home</router-link>
     </div>
     <div class="navbar-menu">
       <router-link v-if="!isAdmin" to="/cart">
