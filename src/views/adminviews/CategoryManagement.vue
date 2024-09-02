@@ -17,28 +17,49 @@
           <td>{{ category.name }}</td>
           <td>{{ category.description }}</td>
           <td>
-            <button @click="updateCategory(category.categoryId)">Update</button>
+            <button @click="openUpdateModal(category)">Update</button>
             <button @click="removeCategory(category.categoryId)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <!-- Update Category Modal -->
+    <div v-if="showUpdateModal" class="modal">
+      <div class="modal-content">
+        <h4>Update Category</h4>
+        <form @submit.prevent="submitUpdate">
+          <div class="input-field">
+            <input v-model="selectedCategory.name" type="text" required />
+            <label class="active">Name</label>
+          </div>
+          <div class="input-field">
+            <input v-model="selectedCategory.description" type="text" required />
+            <label class="active">Description</label>
+          </div>
+          <button type="submit" class="btn">Update</button>
+          <button type="button" class="btn red" @click="closeUpdateModal">Cancel</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getCategories, deleteCategory } from '@/services/categoryService';
+import { getCategories, deleteCategory, updateCategory } from '@/services/categoryService';
 
 export default {
   data() {
     return {
       categories: [],
       sortKey: '',
-      sortAsc: true
+      sortAsc: true,
+      showUpdateModal: false,
+      selectedCategory: null
     };
   },
   async created() {
-    await this.fetchCategories();  // Fetch categories on component creation
+    await this.fetchCategories();
   },
   methods: {
     async fetchCategories() {
@@ -52,10 +73,27 @@ export default {
       if (confirm('Are you sure you want to delete this category?')) {
         try {
           await deleteCategory(categoryId);
-          this.fetchCategories(); // Refresh the category list after deletion
+          this.fetchCategories();
         } catch (error) {
           console.error('Error deleting category:', error);
         }
+      }
+    },
+    openUpdateModal(category) {
+      this.selectedCategory = { ...category };
+      this.showUpdateModal = true;
+    },
+    closeUpdateModal() {
+      this.showUpdateModal = false;
+      this.selectedCategory = null;
+    },
+    async submitUpdate() {
+      try {
+        await updateCategory(this.selectedCategory);
+        this.fetchCategories();
+        this.closeUpdateModal();
+      } catch (error) {
+        console.error('Error updating category:', error);
       }
     }
   }
@@ -93,5 +131,29 @@ button {
 
 button:hover {
   background-color: #2980b9;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.input-field {
+  margin-bottom: 20px;
 }
 </style>

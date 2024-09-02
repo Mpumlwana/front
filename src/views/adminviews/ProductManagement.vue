@@ -1,3 +1,4 @@
+<!-- src/views/adminviews/ProductManagement.vue -->
 <template>
   <div class="management-section">
     <h3>Manage Products</h3>
@@ -13,14 +14,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in products" :key="product.id">
+        <tr v-for="product in products" :key="product.productId">
           <td>{{ product.productId }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.category.name }}</td>
-          <td>{{'R' + product.price}}</td>
+          <td>{{ 'R' + product.price }}</td>
           <td>
-            <button @click="updateProduct">Update</button>
-            <button @click="deleteProduct(product.id)">Delete</button>
+            <button @click="updateProduct(product.productId)">Update</button>
+            <button @click="deleteProduct(product.productId)">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -29,39 +30,53 @@
 </template>
 
 <script>
+import { getProducts, deleteProduct } from '@/services/productService';
 
-import { getProducts } from '@/services/productService';
 export default {
   data() {
     return {
-      products: [
-      ],
+      products: [],
       sortKey: '',
       sortAsc: true
     };
   },
   async created() {
-    try {
-      this.products = await getProducts();  // Fetch products on component creation
-    } catch (error) {
-      console.error('Error fetching products:', error);  // Handle any errors
-    }
+    await this.fetchProducts();
   },
   methods: {
+    async fetchProducts() {
+      try {
+        this.products = await getProducts();
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    },
     sortBy(key) {
       this.sortKey = key;
       this.sortAsc = !this.sortAsc;
+      this.products.sort((a, b) => {
+        let modifier = 1;
+        if (!this.sortAsc) modifier = -1;
+        if (a[key] < b[key]) return -1 * modifier;
+        if (a[key] > b[key]) return 1 * modifier;
+        return 0;
+      });
     },
     addProduct() {
       // Implement add product logic here
     },
-    updateProduct() {
-      // Dummy update function
-      alert('Update product functionality will be implemented later.');
+    updateProduct(productId) {
+      alert(`Update product functionality for product ID ${productId} will be implemented later.`);
     },
-    deleteProduct(id) {
-
-      this.products = this.products.filter(product => product.id !== id);
+    async deleteProduct(productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        try {
+          await deleteProduct(productId);
+          this.fetchProducts(); // Refresh the product list after deletion
+        } catch (error) {
+          console.error('Error deleting product:', error);
+        }
+      }
     }
   }
 };

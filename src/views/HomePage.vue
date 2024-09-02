@@ -48,7 +48,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { getProducts } from '@/services/productService.mjs';
+import { getProducts } from '@/services/productService.js';
 import { getCategories } from '@/services/categoryService';
 
 export default {
