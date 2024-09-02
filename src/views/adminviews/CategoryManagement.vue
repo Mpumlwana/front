@@ -2,6 +2,17 @@
   <div class="management-section">
     <h3>Manage Categories</h3>
     <button @click="openAddModal">Add Category</button>
+
+    <!-- Filter and Search Section -->
+    <div class="filter-search-section">
+      <input v-model="searchQuery" @input="searchCategories" placeholder="Search categories..." />
+      <select v-model="filterKey" @change="filterCategories">
+        <option value="">All</option>
+        <option value="name">Name</option>
+        <option value="description">Description</option>
+      </select>
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -12,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="category in categories" :key="category.id">
+        <tr v-for="category in filteredCategories" :key="category.id">
           <td>{{ category.categoryId }}</td>
           <td>{{ category.name }}</td>
           <td>{{ category.description }}</td>
@@ -71,6 +82,7 @@ export default {
   data() {
     return {
       categories: [],
+      filteredCategories: [],
       sortKey: '',
       sortAsc: true,
       showAddModal: false,
@@ -79,7 +91,9 @@ export default {
       newCategory: {
         name: '',
         description: ''
-      }
+      },
+      searchQuery: '',
+      filterKey: ''
     };
   },
   async created() {
@@ -89,6 +103,7 @@ export default {
     async fetchCategories() {
       try {
         this.categories = await getCategories();
+        this.filteredCategories = this.categories;
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -135,6 +150,21 @@ export default {
       } catch (error) {
         console.error('Error updating category:', error);
       }
+    },
+    searchCategories() {
+      this.filteredCategories = this.categories.filter(category => {
+        return category.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+               category.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    },
+    filterCategories() {
+      if (this.filterKey) {
+        this.filteredCategories = this.categories.filter(category => {
+          return category[this.filterKey].toLowerCase().includes(this.searchQuery.toLowerCase());
+        });
+      } else {
+        this.filteredCategories = this.categories;
+      }
     }
   }
 };
@@ -146,6 +176,16 @@ export default {
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
+}
+
+.filter-search-section {
+  margin-bottom: 20px;
+}
+
+.filter-search-section input,
+.filter-search-section select {
+  margin-right: 10px;
+  padding: 5px;
 }
 
 table {
